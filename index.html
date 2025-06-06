@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Quem você seria em Dark Souls?</title>
+<style>
+body {
+  background-color: #1a1a1a;
+  color: #eee;
+  font-family: 'Georgia', serif;
+  margin: 0;
+  padding: 0;
+}
+
+.container {
+  max-width: 700px;
+  margin: 50px auto;
+  padding: 20px;
+  background: #2b2b2b;
+  border-radius: 10px;
+  border: 2px solid #444;
+}
+
+h1 {
+  text-align: center;
+  color: #cda34f;
+}
+
+.question {
+  margin-bottom: 30px;
+}
+
+.question p {
+  margin-bottom: 10px;
+  font-weight: bold;
+}
+
+.options button {
+  display: block;
+  width: 100%;
+  margin: 5px 0;
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+  background-color: #444;
+  color: #fff;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.options button:hover {
+  background-color: #cda34f;
+  color: #1a1a1a;
+}
+
+#result {
+  margin-top: 30px;
+  font-size: 1.4em;
+  text-align: center;
+  color: #cda34f;
+}
+
+
+</style></head>
+<body>
+  <div class="container">
+    <h1>Qual sua alma em Dark Souls?</h1>
+    <div id="quiz-container"></div>
+    <div id="result"></div>
+  </div>
+  <script>const quizContainer = document.getElementById("quiz-container");
+const resultContainer = document.getElementById("result");
+
+const questions = [
+  {
+    question: "Você encontra um inimigo poderoso. O que faz?",
+    answers: [
+      { text: "Corro e volto mais forte depois", type: "Morto-vivo" },
+      { text: "Encaro de frente com minha espada", type: "Cavaleiro" },
+      { text: "Uso feitiços para manter distância", type: "Feiticeiro" },
+      { text: "Peço auxílio divino", type: "Clérigo" }
+    ]
+  },
+  {
+    question: "O que você busca?",
+    answers: [
+      { text: "Vingança", type: "Morto-vivo" },
+      { text: "Glória", type: "Cavaleiro" },
+      { text: "Conhecimento", type: "Feiticeiro" },
+      { text: "Salvação", type: "Clérigo" }
+    ]
+  },
+  {
+    question: "Qual desses itens você escolheria?",
+    answers: [
+      { text: "Espada gigante", type: "Cavaleiro" },
+      { text: "Catalisador mágico", type: "Feiticeiro" },
+      { text: "Talismã sagrado", type: "Clérigo" },
+      { text: "Effígie humana", type: "Morto-vivo" }
+    ]
+  },
+  {
+    question: "Diante da morte, você...",
+    answers: [
+      { text: "Aceita com honra", type: "Cavaleiro" },
+      { text: "Busca transcendência", type: "Feiticeiro" },
+      { text: "Ora por perdão", type: "Clérigo" },
+      { text: "Renasce infinitamente", type: "Morto-vivo" }
+    ]
+  },
+  {
+    question: "Seu maior medo é...",
+    answers: [
+      { text: "Perder minha fé", type: "Clérigo" },
+      { text: "Perder o controle", type: "Feiticeiro" },
+      { text: "Perder minha força", type: "Cavaleiro" },
+      { text: "Esquecer quem sou", type: "Morto-vivo" }
+    ]
+  },
+  {
+    question: "O que te guia?",
+    answers: [
+      { text: "Código de honra", type: "Cavaleiro" },
+      { text: "Sabedoria ancestral", type: "Feiticeiro" },
+      { text: "A luz divina", type: "Clérigo" },
+      { text: "O desejo de continuar", type: "Morto-vivo" }
+    ]
+  }
+];
+
+let currentQuestion = 0;
+let answersCount = {};
+
+function showQuestion() {
+  const q = questions[currentQuestion];
+  quizContainer.innerHTML = "";
+
+  const div = document.createElement("div");
+  div.classList.add("question");
+
+  const qTitle = document.createElement("p");
+  qTitle.textContent = q.question;
+  div.appendChild(qTitle);
+
+  const optionsDiv = document.createElement("div");
+  optionsDiv.classList.add("options");
+
+  q.answers.forEach((a) => {
+    const btn = document.createElement("button");
+    btn.textContent = a.text;
+    btn.onclick = () => {
+      answersCount[a.type] = (answersCount[a.type] || 0) + 1;
+      currentQuestion++;
+      if (currentQuestion < questions.length) {
+        showQuestion();
+      } else {
+        showResult();
+      }
+    };
+    optionsDiv.appendChild(btn);
+  });
+
+  div.appendChild(optionsDiv);
+  quizContainer.appendChild(div);
+}
+
+function showResult() {
+  quizContainer.innerHTML = "";
+  const sorted = Object.entries(answersCount).sort((a, b) => b[1] - a[1]);
+  const winner = sorted[0][0];
+  resultContainer.textContent = `Você é um(a) ${winner} em Dark Souls!`;
+}
+
+showQuestion();
+
+
+</script>
+</body>
+</html>
